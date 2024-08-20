@@ -1,0 +1,13 @@
+[Unit]
+Description=Python Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /tmp/ansible/pythonService.py
+Restart=always
+User=nobody
+
+
+[Install]
+WantedBy=multi-user.target
