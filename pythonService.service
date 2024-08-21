@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /tmp/ansible/pythonService.py
+ExecStart=/usr/bin/python3 /home/bz/ansibleTask/pythonService.py
 Restart=always
 User=nobody
 
