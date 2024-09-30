@@ -1,0 +1,45 @@
+---
+ - name: clone and start a systemctl service
+   vars:
+     ssh: git@github.com:alirezarazani2003/ansible.git
+     username: bz
+   hosts: webservers
+
+   tasks:
+   - name: install essentials
+     pacman:
+      name:
+      - git
+      - python3
+   - name: clone repository
+     git:
+      repo: "{{ssh}}"
+      dest: /home/{{ username }}/ansibleTask
+      clone: yes
+      update: yes
+      accept_hostkey: yes
+      key_file: /home/alireza/.ssh/id_ed25519
+      force: yes
+
+   - name: copy service file to /etc/systemd/system/
+     copy:
+      src: /home/{{ username }}/ansibleTask/pythonService.service
+      dest: /etc/systemd/system/
+      owner: bz
+      group: bz
+      mode: 0644
+      remote_src: yes
+     become: yes
+   - name: reload systemd daemon
+     systemd:
+      daemon_reload: yes
+     become: yes
+   - name: start and enable pythonServic
+     service:
+      name: pythonService.service
+      enabled: yes
+      state: started
+     become: yes
+
+...
+
